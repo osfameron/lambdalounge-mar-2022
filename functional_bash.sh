@@ -1,7 +1,5 @@
 #!/bin/bash
 
-rm out.*
-
 clear
 cowsay <<λλ
 Functional Bash!
@@ -11,7 +9,6 @@ LambdaLounge 2022-03-21
 
 WORDS=/usr/share/dict/words
 head $WORDS
-
 
 grep '^f' $WORDS | head
 
@@ -32,11 +29,7 @@ cat $WORDS \
     | head
 
 
-cat <<"UPPER" > upper.sh
-#!/usr/local/bin/bash
-echo ${*^^} # Bash 4.0 magic!
-UPPER
-chmod +x upper.sh
+cat upper.sh
 
 ./upper.sh hello lambdalounge
 
@@ -69,35 +62,32 @@ EXAMPLE
 gh repo view \
     https://github.com/datacharmer/test_db
 
-./import.sh # time mysql < employees.sql
-
-man split
-
 q
 
-w3m https://philiplb.de/sqldumpsplitter3/
+./import.sh # time mysql < employees.sql
+
+insect "2TB / 169MB * 46s -> seconds"
 
 DUMP=test_db/load_salaries1.dump
 head $DUMP
+
+grep ^INSERT $DUMP | head
+grep ^INSERT $DUMP | wc -l
 du -h $DUMP
 
+# w3m https://philiplb.de/sqldumpsplitter3/
+man split | head
 
 time split -p "^INSERT" $DUMP out.
 
 ls out.*
+head -n 1 out.aa out.az
 
-for OUT in out.*; do
-    head -n 1 $OUT
-done
-
-cowthink ⌛...
-
-insect "2TB / 38MB * 3s -> days"
-
-cowthink 💾...
+cowthink -t ⌛... $(insect "2TB / 38MB * 3s -> days") 💾...
 
 time grep "^INSERT" $DUMP
 
+cowthink -p '!!!'
 
 grep -b "^INSERT" $DUMP
 
@@ -111,16 +101,13 @@ grep -bH "^INSERT" $DUMP \
 (
   cut -d: -f2 offsets.1 \
     | tail -n +2
-  stat -f%z $DUMP
-) > offsets.2
+  # stat -f%z $DUMP
+) | tee offsets.2
 
-head -n 2 offsets.1; \
-echo ...; \
-tail -n 2 offsets.1; \
-echo; \
-head -n 2 offsets.2; \
-echo ...; \
-tail -n 2 offsets.2
+head -n 2 offsets.1 offsets.2
+
+tail -n 2 offsets.1 offsets.2
+
 
 # 🤐
 paste -d: offsets.1 offsets.2  \
@@ -147,7 +134,7 @@ done < offsets.out
 
 
 
-cowthink Just like Erlang strings / piece tables!
+cowthink -w Just like Erlang strings / piece tables!
 
 
 # 😱😱😱
