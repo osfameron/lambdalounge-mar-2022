@@ -28,7 +28,9 @@ cat <<IMPORT
 INFO
 LOADING salaries
 IMPORT
-sleep 10
+sleep 2 
+cowthink ⌛...
+sleep 6
 
 cat <<IMPORT
 data_load_time_diff
